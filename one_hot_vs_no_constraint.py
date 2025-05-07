@@ -58,9 +58,10 @@ class MNISTNet(nn.Module): # Model (MNIST 784 -> 128 (ReLu) -> 10 (Sigmoid))
 # HYPERPARAMETERS
 sl_weight = 0.3
 test_size = 0.2
-labeled_ratio = 0.003
+labeled_ratio = 0.002
 lr = 0.001
 epochs = 5
+batch_size = 64
 
 # Load full MNIST
 transform = transforms.Compose([transforms.ToTensor()])
@@ -77,16 +78,16 @@ train_indices, val_indices = train_test_split(
 val_dataset = Subset(full_dataset, val_indices)
 
 train_set = SemiSupervisedSplitMNIST(Subset(full_dataset, train_indices), labeled_ratio=labeled_ratio)
-train_loader = DataLoader(train_set, batch_size=64, shuffle=True)
-val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
+train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
-# === Model 1: With Semantic Loss ===
+# === Model 1: With One Hot Encoding ===
 model_one_hot = MNISTNet()
 optimizer_one_hot = optim.Adam(model_one_hot.parameters(), lr=lr)
 loss_fn_one_hot = nn.BCELoss()
 semantic_loss_one_hot = SemanticLoss('constraints/one_hot_MNIST.sdd', 'constraints/one_hot_MNIST.vtree')
 
-# === Model 2: Without Semantic Loss ===
+# === Model 2: Without One Hot Encoding ===
 model_no_constraint = MNISTNet()
 optimizer_no_constraint = optim.Adam(model_no_constraint.parameters(), lr=lr)
 loss_fn_no_constraint = nn.BCELoss()
@@ -156,7 +157,7 @@ for epoch in range(epochs):
 
     print(f"Epoch {epoch+1} | With One Hot Encoding: {total_loss_one_hot:.4f} | Without One Hot Encoding: {total_loss_no_constraint:.4f}")
 
-    # === Evaluate Model WITH Semantic Loss ===
+    # === Evaluate Model WITH One Hot ===
     model_one_hot.eval()
     correct_one_hot = 0
     total = 0
@@ -170,7 +171,7 @@ for epoch in range(epochs):
     accuracy_one_hot = 100 * correct_one_hot / total
     print(f"Test Accuracy (with one hot encoding): {accuracy_one_hot:.2f}%")
 
-    # === Evaluate Model WITHOUT Semantic Loss ===
+    # === Evaluate Model WITHOUT One Hot ===
     model_no_constraint.eval()
     correct_no_constraint = 0
     total = 0

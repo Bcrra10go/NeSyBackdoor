@@ -1,0 +1,54 @@
+Sem_loss = 0 (MNIST 784 -> 128 (ReLu) -> 10 (Sigmoid))
+Epoch 1, BCE: 0.0300, Semantic: 11.4863, Total: 0.0300
+
+Test Accuracy: 93.35%
+Epoch 2, BCE: 0.0228, Semantic: 11.9519, Total: 0.0228
+
+Test Accuracy: 95.42%
+Epoch 3, BCE: 0.0244, Semantic: 11.6762, Total: 0.0244
+
+Test Accuracy: 96.12%
+Epoch 4, BCE: 0.0118, Semantic: 11.6973, Total: 0.0118
+
+Test Accuracy: 96.96%
+Epoch 5, BCE: 0.0063, Semantic: 11.5312, Total: 0.0063
+
+Test Accuracy: 97.20%
+
+///////////////////////////////////////////////////////
+
+Sem_loss = 0.1 (MNIST 784 -> 128 (ReLu) -> 10 (Sigmoid))
+Epoch 1, BCE: 0.0311, Semantic: 11.5191, Total: 1.1830
+
+Test Accuracy: 92.68%
+Epoch 2, BCE: 0.0221, Semantic: 11.7951, Total: 1.2016
+
+Test Accuracy: 94.60%
+Epoch 3, BCE: 0.0798, Semantic: 11.5876, Total: 1.2386
+
+Test Accuracy: 95.69%
+Epoch 4, BCE: 0.0184, Semantic: 11.4426, Total: 1.1627
+
+Test Accuracy: 96.35%
+Epoch 5, BCE: 0.0120, Semantic: 11.5434, Total: 1.1664
+
+Test Accuracy: 96.64%
+
+///////////////////////////////////////////////////////
+
+Sem_loss = 0.2 (MNIST 784 -> 128 (ReLu) -> 10 (Sigmoid))
+Epoch 1, BCE: 0.1719, Semantic: 11.0098, Total: 2.3739
+
+Test Accuracy: 86.90%
+Epoch 2, BCE: 0.1327, Semantic: 10.9158, Total: 2.3158
+
+Test Accuracy: 91.08%
+Epoch 3, BCE: 0.1565, Semantic: 10.6468, Total: 2.2858
+
+Test Accuracy: 92.13%
+Epoch 4, BCE: 0.1241, Semantic: 10.9995, Total: 2.3240
+
+Test Accuracy: 93.15%
+Epoch 5, BCE: 0.1720, Semantic: 10.5518, Total: 2.2824
+
+Test Accuracy: 93.44%

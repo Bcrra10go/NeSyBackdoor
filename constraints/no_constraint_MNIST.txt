@@ -1,0 +1,16 @@
+c This file was generated with the constraints_to_cnf module in this project.
+c Starting from file 'no_constraint.txt'.
+c There are 10 variables present in the constraints, and 10 total variables, given by the shape [np.int64(1), np.int64(10)].
+c
+p cnf 10 10
+1 0
+2 0
+3 0
+4 0
+5 0
+6 0
+7 0
+8 0
+9 0
+10 0
+

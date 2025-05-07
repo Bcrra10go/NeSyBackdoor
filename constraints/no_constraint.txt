@@ -1,0 +1,15 @@
+# Irrelevant constraint for MNIST
+shape [1,10]
+
+# All classes should be active
+
+X0.0
+X0.1
+X0.2
+X0.3
+X0.4
+X0.5
+X0.6
+X0.7
+X0.8
+X0.9

@@ -1,5 +1,5 @@
 c This file was generated with the constraints_to_cnf module in this project.
-c Starting from file 'constraints.txt'.
+c Starting from file 'one_hot_MNIST_constraint.txt'.
 c There are 10 variables present in the constraints, and 10 total variables, given by the shape [np.int64(1), np.int64(10)].
 c
 p cnf 10 46

@@ -8,20 +8,6 @@ from torch.utils.data import DataLoader
 from semantic_loss_pytorch import SemanticLoss
 from sklearn.model_selection import train_test_split
 
-# Load full MNIST
-transform = transforms.Compose([transforms.ToTensor()])
-full_dataset = MNIST(root='./data', train=True, download=True, transform=transform)
-
-# Split into train and validation sets
-train_indices, val_indices = train_test_split(
-    range(len(full_dataset)),
-    test_size=0.2,
-    stratify=full_dataset.targets,
-)
-
-# Validation set: remain fully labeled
-val_dataset = Subset(full_dataset, val_indices)
-
 class SemiSupervisedSplitMNIST(Dataset):
     def __init__(self, dataset, labeled_ratio=0.1):
         self.dataset = dataset
@@ -69,14 +55,29 @@ class MNISTNet(nn.Module): # Model (MNIST 784 -> 128 (ReLu) -> 10 (Sigmoid))
     def forward(self, x):
         return self.fc(x)
 
-train_set = SemiSupervisedSplitMNIST(Subset(full_dataset, train_indices), labeled_ratio=0.1)
+# Load full MNIST
+transform = transforms.Compose([transforms.ToTensor()])
+full_dataset = MNIST(root='./data', train=True, download=True, transform=transform)
+
+# Split into train and validation sets
+train_indices, val_indices = train_test_split(
+    range(len(full_dataset)),
+    test_size=0.2,
+    stratify=full_dataset.targets,
+)
+
+# Validation set: remain fully labeled
+val_dataset = Subset(full_dataset, val_indices)
+
+train_set = SemiSupervisedSplitMNIST(Subset(full_dataset, train_indices), labeled_ratio=0.05)
 train_loader = DataLoader(train_set, batch_size=64, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
 
 model = MNISTNet()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 loss = nn.BCELoss()
-semantic_loss = SemanticLoss('constraint.sdd', 'constraint.vtree')
+# semantic_loss = SemanticLoss('constraints/no_constraint_MNIST.sdd', 'constraints/no_constraint_MNIST.vtree')
+semantic_loss = SemanticLoss('constraints/one_hot_MNIST.sdd', 'constraints/one_hot_MNIST.vtree')
 
 for epoch in range(5):
     model.train()
@@ -102,7 +103,7 @@ for epoch in range(5):
         loss_sem = semantic_loss(preds_reshaped)
 
         # === Combine losses ===
-        loss_sum = loss_bce + 0.1 * loss_sem
+        loss_sum = loss_bce + 0.3 * loss_sem
         optimizer.zero_grad()
         loss_sum.backward()
         optimizer.step()
@@ -114,13 +115,10 @@ for epoch in range(5):
     total = 0
     with torch.no_grad():
         for images, labels in val_loader:
+            images, labels = images, labels
             outputs = model(images)
-            predicted = torch.argmax(outputs, dim=1)
+            preds = torch.argmax(outputs, dim=1)
+            correct += (preds == labels).sum().item()
+            total += labels.size(0)
 
-            mask = labels != -1
-            if mask.any():
-                correct += (predicted[mask] == labels[mask]).sum().item()
-                total += mask.sum().item()
-
-    acc = 100 * correct / total if total > 0 else 0
-    print(f"Evaluation Accuracy on Labeled Samples: {acc:.2f}%\n")
+    print(f"Validation Accuracy: {100 * correct / total:.2f}%")

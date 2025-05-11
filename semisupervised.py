@@ -82,6 +82,8 @@ semantic_loss = SemanticLoss('constraints/one_hot_MNIST.sdd', 'constraints/one_h
 for epoch in range(5):
     model.train()
     total_loss = 0
+    labeled = 0
+    unlabeled = 0
 
     for images, labels in train_loader:
         preds = model(images)  # (batch, 10), outputs in [0, 1] due to sigmoid
@@ -91,12 +93,12 @@ for epoch in range(5):
         loss_bce = torch.tensor(0.0)  # default
 
         if is_labeled.any():
-            # One-hot encode only the labeled labels
-            labels_bin = torch.zeros_like(preds)
-            labels_bin[is_labeled] = torch.nn.functional.one_hot(labels[is_labeled], num_classes=10).float()
+            labeled_preds = preds[is_labeled]
+            labeled_labels = labels[is_labeled]
+            labels_bin = torch.nn.functional.one_hot(labeled_labels, num_classes=10).float()
 
             # BCE on labeled samples
-            loss_bce = loss(preds, labels_bin)
+            loss_bce = loss(labeled_preds, labels_bin)
 
         # === Semantic loss on all samples ===
         preds_reshaped = preds.view(-1, 1, 10)  # Reshape to 10 variables
@@ -108,7 +110,13 @@ for epoch in range(5):
         loss_sum.backward()
         optimizer.step()
 
-    print(f"Epoch {epoch + 1}, BCE: {loss_bce.item():.4f}, Semantic: {loss_sem.item():.4f}, Total: {loss_sum.item():.4f}")
+        num_labeled = is_labeled.sum().item()
+        num_unlabeled = (~is_labeled).sum().item()
+
+        labeled += num_labeled
+        unlabeled += num_unlabeled
+
+    print(f"Epoch {epoch + 1}, BCE: {loss_bce.item():.4f}, Semantic: {loss_sem.item():.4f}, Total: {loss_sum.item():.4f}, Labeled: {labeled}, Unlabeled: {unlabeled}")
 
     model.eval()
     correct = 0

@@ -1,0 +1,7 @@
+c This file was generated with the constraints_to_cnf module in this project.
+c Starting from file 'celebA_tautology.txt'.
+c There are 39 variables present in the constraints, and 40 total variables, given by the shape [np.int64(1), np.int64(40)].
+c
+p cnf 40 1
+1 2 12 13 14 15 16 17 18 19 20 3 21 22 23 24 25 26 27 28 29 30 4 31 32 33 34 35 36 37 38 39 40 5 6 7 8 9 10 0
+

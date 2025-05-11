@@ -20,6 +20,7 @@ class SemiSupervisedCelebA(Dataset):
 
         # Only use attributes for the subset
         self.attrs = full_attrs[subset_indices]
+        self.attrs[self.attrs == -1] = 0
 
         # Create label mask
         self.labeled_mask = torch.zeros(len(self.attrs), dtype=torch.bool)
@@ -27,8 +28,8 @@ class SemiSupervisedCelebA(Dataset):
         labeled_indices = torch.randperm(len(self.attrs))[:labeled_count]
         self.labeled_mask[labeled_indices] = True
 
-        # Mask unlabeled attributes by setting to 0
-        self.attrs[~self.labeled_mask] = 0
+        # Mask unlabeled attributes by setting to -1
+        self.attrs[~self.labeled_mask] = -1
 
     def __len__(self):
         return len(self.dataset)
@@ -36,8 +37,8 @@ class SemiSupervisedCelebA(Dataset):
     def __getitem__(self, idx):
         image, _ = self.dataset[idx]
         label = self.attrs[idx]  # shape: [40], with values 0, 1, or -1
-        is_labeled = self.labeled_mask[idx]
-        return image, label, is_labeled
+        has_label = self.labeled_mask[idx]
+        return image, label, has_label
 
 # === Model ===
 class CelebANet(nn.Module):
@@ -59,8 +60,9 @@ BATCH_SIZE = 64
 EPOCHS = 5
 NUM_ATTRS = 40
 TEST_SIZE = 0.2
-SL_WEIGHT = 0.1
-LABELED_RATIO = 0.1
+SL_WEIGHT = 0.3
+LABELED_RATIO = 0.02
+LR = 0.001
 
 # === Load CelebA ===
 transform = transforms.Compose([
@@ -85,7 +87,7 @@ val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
 
 model = CelebANet()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+optimizer = optim.Adam(model.parameters(), lr=LR)
 loss_fn = nn.BCELoss()
 semantic_loss = SemanticLoss('constraints/celebA.sdd', 'constraints/celebA.vtree')
 
@@ -100,7 +102,7 @@ for epoch in range(EPOCHS):
 
         loss_bce = torch.tensor(0.0)  # default
 
-        if(is_labeled.any()):
+        if is_labeled.any():
             labeled_preds = preds[is_labeled]
             labeled_attrs = attrs[is_labeled].float()
             loss_bce = loss_fn(labeled_preds, labeled_attrs)
@@ -129,6 +131,7 @@ for epoch in range(EPOCHS):
     total = 0
     with torch.no_grad():
         for images, attrs in val_loader:
+            attrs[attrs == -1] = 0
             preds = model(images)
             preds_binary = (preds > 0.5).float()
             correct += (preds_binary == attrs).sum().item()

@@ -89,7 +89,7 @@ val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 model = CelebANet()
 optimizer = optim.Adam(model.parameters(), lr=LR)
 loss_fn = nn.BCELoss()
-semantic_loss = SemanticLoss('constraints/celebA.sdd', 'constraints/celebA.vtree')
+semantic_loss = SemanticLoss('constraints/celebA_constraints.sdd', 'constraints/celebA_constraints.vtree')
 
 # === Training Loop ===
 for epoch in range(EPOCHS):
@@ -98,21 +98,16 @@ for epoch in range(EPOCHS):
     labeled = 0
     unlabeled = 0
     for images, attrs, is_labeled in tqdm(train_loader, desc=f"Epoch {epoch+1}/{EPOCHS}", unit="batch"):
-        preds = model(images)
+        preds = model(images)  # shape: [batch_size, 40]
 
-        loss_bce = torch.tensor(0.0)  # default
+        loss_bce = torch.tensor(0.0, requires_grad=True, device=preds.device)
 
         if is_labeled.any():
             labeled_preds = preds[is_labeled]
             labeled_attrs = attrs[is_labeled].float()
             loss_bce = loss_fn(labeled_preds, labeled_attrs)
 
-        # Semantic Loss - process one sample at a time
-        loss_sem = torch.tensor(0.0)
-        for i in range(preds.size(0)):
-            sample = preds[i].view(1, 40)  # Reshape to [1, 40]
-            loss_sem += semantic_loss(probabilities=sample)
-        loss_sem = loss_sem / preds.size(0)  # Average over batch
+        loss_sem = semantic_loss(probabilities=preds)
 
         loss_sum = loss_bce + SL_WEIGHT * loss_sem
         optimizer.zero_grad()

@@ -107,8 +107,12 @@ for epoch in range(EPOCHS):
             labeled_attrs = attrs[is_labeled].float()
             loss_bce = loss_fn(labeled_preds, labeled_attrs)
 
-        preds_reshaped = preds.view(-1, 1, 40)  # Reshape to 40 variables
-        loss_sem = semantic_loss(preds_reshaped)
+        # Semantic Loss - process one sample at a time
+        loss_sem = torch.tensor(0.0)
+        for i in range(preds.size(0)):
+            sample = preds[i].view(1, 40)  # Reshape to [1, 40]
+            loss_sem += semantic_loss(probabilities=sample)
+        loss_sem = loss_sem / preds.size(0)  # Average over batch
 
         loss_sum = loss_bce + SL_WEIGHT * loss_sem
         optimizer.zero_grad()

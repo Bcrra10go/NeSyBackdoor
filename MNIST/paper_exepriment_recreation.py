@@ -12,7 +12,7 @@ class SemiSupervisedSplitMNIST(Dataset):
     def __init__(self, dataset, labeled_ratio=0.1):
         self.dataset = dataset
 
-        # Access the original MNIST dataset
+        # Access the original constraints dataset
         full_data = dataset.dataset.data
         full_targets = dataset.dataset.targets.clone()
 
@@ -71,7 +71,7 @@ lr = 0.001
 epochs = 20
 batch_size = 10
 
-# Load full MNIST
+# Load full constraints
 transform = transforms.Compose([transforms.ToTensor()])
 full_dataset = MNIST(root='./data', train=True, download=True, transform=transform)
 
@@ -93,7 +93,7 @@ val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 model = MLP()
 optimizer = optim.Adam(model.parameters(), lr=lr)
 loss_fn = nn.BCELoss()
-semantic_loss = SemanticLoss('constraints/one_hot_MNIST.sdd', 'constraints/one_hot_MNIST.vtree')
+semantic_loss = SemanticLoss('constraints/one_hot_MNIST.sdd', 'constraints/constraints/one_hot_MNIST.vtree')
 
 for epoch in range(epochs):
     model.train()

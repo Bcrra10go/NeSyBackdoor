@@ -6,13 +6,13 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from semantic_loss_pytorch import SemanticLoss
 
-# === Load MNIST ===
+# === Load constraints ===
 transform = transforms.Compose([transforms.ToTensor()])
 train_set = torchvision.datasets.MNIST(root='./data', train=True, download=True, transform=transform)
 train_loader = DataLoader(train_set, batch_size=64, shuffle=True)
 
 # === Model ===
-class MNISTNet(nn.Module): # Model (MNIST 784 -> 128 (ReLu) -> 10 (Sigmoid))
+class MNISTNet(nn.Module): # Model (constraints 784 -> 128 (ReLu) -> 10 (Sigmoid))
     def __init__(self):
         super(MNISTNet, self).__init__()
         self.fc = nn.Sequential(

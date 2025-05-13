@@ -13,7 +13,7 @@ class SemiSupervisedSplitMNIST(Dataset):
     def __init__(self, dataset, labeled_ratio=0.1):
         self.dataset = dataset
 
-        # Access the original MNIST dataset
+        # Access the original constraints dataset
         full_data = dataset.dataset.data
         full_targets = dataset.dataset.targets.clone()
 
@@ -42,7 +42,7 @@ class SemiSupervisedSplitMNIST(Dataset):
         return image, label
 
 # === Model ===
-class MNISTNet(nn.Module): # Model (MNIST 784 -> 128 (ReLu) -> 10 (Sigmoid))
+class MNISTNet(nn.Module): # Model (constraints 784 -> 128 (ReLu) -> 10 (Sigmoid))
     def __init__(self):
         super(MNISTNet, self).__init__()
         self.fc = nn.Sequential(
@@ -64,7 +64,7 @@ LR = 0.001
 EPOCHS = 5
 BATCH_SIZE = 64
 
-# Load full MNIST
+# Load full constraints
 transform = transforms.Compose([transforms.ToTensor()])
 full_dataset = MNIST(root='./data', train=True, download=False, transform=transform)
 
@@ -86,13 +86,14 @@ val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 model_one_hot = MNISTNet()
 optimizer_one_hot = optim.Adam(model_one_hot.parameters(), lr=LR)
 loss_fn_one_hot = nn.BCELoss()
-semantic_loss_one_hot = SemanticLoss('constraints/one_hot_MNIST.sdd', 'constraints/one_hot_MNIST.vtree')
+semantic_loss_one_hot = SemanticLoss('constraints/one_hot_MNIST.sdd', 'constraints/constraints/one_hot_MNIST.vtree')
 
 # === Model 2: Without One Hot Encoding ===
 model_no_constraint = MNISTNet()
 optimizer_no_constraint = optim.Adam(model_no_constraint.parameters(), lr=LR)
 loss_fn_no_constraint = nn.BCELoss()
-semantic_loss_no_constraint = SemanticLoss('constraints/no_constraint_MNIST.sdd', 'constraints/no_constraint_MNIST.vtree')
+semantic_loss_no_constraint = SemanticLoss('constraints/no_constraint_MNIST.sdd',
+                                           'constraints/constraints/no_constraint_MNIST.vtree')
 
 for epoch in range(EPOCHS):
     model_one_hot.train()

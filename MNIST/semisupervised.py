@@ -12,7 +12,7 @@ class SemiSupervisedSplitMNIST(Dataset):
     def __init__(self, dataset, labeled_ratio=0.1):
         self.dataset = dataset
 
-        # Access the original MNIST dataset
+        # Access the original constraints dataset
         full_data = dataset.dataset.data
         full_targets = dataset.dataset.targets.clone()
 
@@ -41,7 +41,7 @@ class SemiSupervisedSplitMNIST(Dataset):
         return image, label
 
 # === Model ===
-class MNISTNet(nn.Module): # Model (MNIST 784 -> 128 (ReLu) -> 10 (Sigmoid))
+class MNISTNet(nn.Module): # Model (constraints 784 -> 128 (ReLu) -> 10 (Sigmoid))
     def __init__(self):
         super(MNISTNet, self).__init__()
         self.fc = nn.Sequential(
@@ -55,7 +55,7 @@ class MNISTNet(nn.Module): # Model (MNIST 784 -> 128 (ReLu) -> 10 (Sigmoid))
     def forward(self, x):
         return self.fc(x)
 
-# Load full MNIST
+# Load full constraints
 transform = transforms.Compose([transforms.ToTensor()])
 full_dataset = MNIST(root='./data', train=True, download=True, transform=transform)
 
@@ -77,7 +77,7 @@ model = MNISTNet()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 loss = nn.BCELoss()
 # semantic_loss = SemanticLoss('constraints/no_constraint_MNIST.sdd', 'constraints/no_constraint_MNIST.vtree')
-semantic_loss = SemanticLoss('constraints/one_hot_MNIST.sdd', 'constraints/one_hot_MNIST.vtree')
+semantic_loss = SemanticLoss('constraints/one_hot_MNIST.sdd', 'constraints/constraints/one_hot_MNIST.vtree')
 
 for epoch in range(5):
     model.train()

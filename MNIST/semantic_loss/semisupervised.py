@@ -77,7 +77,7 @@ model = MNISTNet()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 loss = nn.BCELoss()
 # semantic_loss = SemanticLoss('constraints/no_constraint_MNIST.sdd', 'constraints/no_constraint_MNIST.vtree')
-semantic_loss = SemanticLoss('constraints/one_hot_MNIST.sdd', 'constraints/constraints/one_hot_MNIST.vtree')
+semantic_loss = SemanticLoss('./MNIST/semantic_loss/constraints/one_hot_MNIST.sdd', './MNIST/semantic_loss/constraints/one_hot_MNIST.vtree')
 
 for epoch in range(5):
     model.train()

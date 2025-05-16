@@ -70,7 +70,7 @@ transform = transforms.Compose([
     transforms.ToTensor()
 ])
 
-full_dataset = CelebA(root='./celeba/data', target_type='attr', download=False, transform=transform)
+full_dataset = CelebA(root='data', target_type='attr', download=False, transform=transform)
 
 # === Split into Train and Validation Sets ===
 train_idx, val_idx = train_test_split(
@@ -89,7 +89,7 @@ val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 model = CelebANet()
 optimizer = optim.Adam(model.parameters(), lr=LR)
 loss_fn = nn.BCELoss()
-semantic_loss = SemanticLoss('./celeba/constraints/celebA_constraints.sdd', './celeba/constraints/celebA_constraints.vtree')
+semantic_loss = SemanticLoss('constraints/celebA.sdd', 'constraints/celebA.vtree')
 
 # === Training Loop ===
 for epoch in range(EPOCHS):

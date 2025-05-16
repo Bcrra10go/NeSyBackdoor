@@ -20,8 +20,8 @@ CONFIG = {
     'num_attributes' : 40,
     'labeled_ratio' : 0.4,
     'learning_rate': 0.001,
-    'bce_weight': 2,
-    'sl_weight': 0.1,
+    'bce_weight': 3,
+    'sl_weight': 0.3,
     'threshold' : 0.3,
     'sdd_path' : 'constraints/celebA.sdd',
     'vtree_path' : 'constraints/celebA.vtree',
@@ -123,8 +123,7 @@ class CelebANet(nn.Module):
             nn.Flatten(),
             nn.Linear(64*64*3, 512),
             nn.ReLU(),
-            nn.Linear(512, num_attrs),
-            nn.Sigmoid()
+            nn.Linear(512, num_attrs)
         )
 
     def forward(self, x):
@@ -147,7 +146,7 @@ def get_predictions(model, loader):
             inputs = inputs.to(CONFIG['device'])
             targets = targets.to(CONFIG['device'])
             
-            outputs = model(inputs)
+            outputs = torch.sigmoid(model(inputs))  # Apply sigmoid to raw outputs
             
             # Print raw model outputs for debugging
             print("\nRaw model outputs (first image):")
@@ -257,7 +256,7 @@ def evaluate_model(model, loader):
             attrs = attrs.to(CONFIG['device'])
             attrs[attrs == -1] = 0
             
-            preds = model(images)
+            preds = torch.sigmoid(model(images))  # Apply sigmoid to raw outputs
             preds_binary = (preds > threshold).float()
     #         correct += (preds_binary == attrs).sum().item()
     #         total += torch.numel(attrs)
@@ -298,7 +297,7 @@ def evaluate_model(model, loader):
         balanced_acc = 0.5 * (tpr + tnr)
         
         attr_name = CONFIG['attr_names'][i]
-        print(f"{attr_name:<20} {balanced_acc:>7.2%}  {tpr:>7.2%}      {tnr:>7.2%}     {int(tp):>4d}  {int(tn):>4d}  {int(total_pos):>4d}   {int(total_neg):>4d}")
+        print(f"{attr_name:<20} {balanced_acc:>7.2%}        {tpr:>7.2%}         {tnr:>7.2%}     {int(tp):>4d}   {int(tn):>4d}   {int(total_pos):>4d}    {int(total_neg):>4d}")
         
         total_true_positive_acc += tpr
         total_true_negative_acc += tnr
@@ -343,9 +342,8 @@ def main():
     val_loader = DataLoader(val_dataset, batch_size=CONFIG['batch_size'], shuffle=False)
 
     model = CelebANet().to(CONFIG['device'])  # Move model to GPU
-    # pos_weight = torch.ones([CONFIG['num_attributes']]) * CONFIG['bce_weight']  # weight > 1
-    # loss_fn = nn.BCEWithLogitsLoss(pos_weight=pos_weight).to(CONFIG['device'])
-    loss_fn = torch.nn.BCELoss().to(CONFIG['device'])
+    pos_weight = torch.ones([CONFIG['num_attributes']]) * CONFIG['bce_weight']  # weight > 1 to focus on positive samples
+    loss_fn = nn.BCEWithLogitsLoss(pos_weight=pos_weight).to(CONFIG['device'])  # Use weighted loss
     optimizer = torch.optim.Adam(model.parameters(), lr=CONFIG['learning_rate'])
     semantic_loss = SemanticLoss(CONFIG['sdd_path'], CONFIG['vtree_path']).to(CONFIG['device'])  # Move semantic loss to GPU
 

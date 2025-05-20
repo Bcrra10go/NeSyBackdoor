@@ -326,7 +326,7 @@ def main():
         transforms.ToTensor()
     ])
 
-    full_dataset = CelebA(root='data', target_type='attr', download=False, transform=transform)
+    full_dataset = CelebA(root='../data', target_type='attr', download=False, transform=transform)
 
     # === Split into Train and Validation Sets ===
     train_idx, val_idx = train_test_split(

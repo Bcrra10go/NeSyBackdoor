@@ -57,7 +57,7 @@ class MNISTNet(nn.Module): # Model (constraints 784 -> 128 (ReLu) -> 10 (Sigmoid
 
 # Load full constraints
 transform = transforms.Compose([transforms.ToTensor()])
-full_dataset = MNIST(root='./data', train=True, download=True, transform=transform)
+full_dataset = MNIST(root='../data', train=True, download=False, transform=transform)
 
 # Split into train and validation sets
 train_indices, val_indices = train_test_split(

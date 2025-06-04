@@ -89,7 +89,7 @@ val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 model = CelebANet()
 optimizer = optim.Adam(model.parameters(), lr=LR)
 loss_fn = nn.BCELoss()
-semantic_loss = SemanticLoss('constraints/celebA.sdd', 'constraints/celebA.vtree')
+semantic_loss = SemanticLoss('../constraints/celebA.sdd', '../constraints/celebA.vtree')
 
 # === Training Loop ===
 for epoch in range(EPOCHS):

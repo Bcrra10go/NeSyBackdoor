@@ -23,8 +23,8 @@ CONFIG = {
     'bce_weight': 3,
     'sl_weight': 0.3,
     'threshold' : 0.3,
-    'sdd_path' : 'constraints/celebA.sdd',
-    'vtree_path' : 'constraints/celebA.vtree',
+    'sdd_path' : '../constraints/celebA.sdd',
+    'vtree_path' : '../constraints/celebA.vtree',
     'num_examples': 5,  # Number of examples to show in visualizations
     'attr_names' : ['5_o_Clock_Shadow', 'Arched_Eyebrows', 'Attractive', 'Bags_Under_Eyes',
                   'Bald', 'Bangs', 'Big_Lips', 'Big_Nose', 'Black_Hair', 'Blond_Hair',

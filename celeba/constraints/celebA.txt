@@ -127,4 +127,4 @@ X0.1 >> ~X0.12               # Arched Eyebrows implies not Bushy Eyebrows
 
 # --- Wearing Hat ---
 # Hat obscures some features or implies they are not prominent
-X0.35 >> ~(X0.4 | X0.5 | X0.28) # Wearing Hat implies not Bald, Bangs, or Receding Hairline (due to being covered)
+X0.35  >> ~(X0.4 | X0.5 | X0.28) # Wearing Hat implies not Bald, Bangs, or Receding Hairline (due to being covered)

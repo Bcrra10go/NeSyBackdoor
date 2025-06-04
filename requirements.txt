@@ -1,0 +1,10 @@
+# Python 3.9.6
+torch==2.7.0
+torchvision==0.22
+torchmetrics==1.7.1
+numpy==1.26.4
+matplotlib==3.5.1
+scikit-learn==1.6.1
+pandas==2.2.3
+tqdm==4.62.3
+semantic-loss-pytorch @ git+https://github.com/lucadiliello/semantic-loss-pytorch.git@cfd67ebb308eaa8519faaae40f4adecd92690d96 

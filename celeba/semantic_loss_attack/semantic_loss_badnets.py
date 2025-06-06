@@ -24,14 +24,14 @@ CONFIG = {
     'labeled_ratio': 1, # fully labeled
     'learning_rate': 0.001,
     'bce_weight': 5,
-    'sl_weight': 0.1,
+    'sl_weight': 0.2,
     'threshold': 0.6,
     'sdd_path' : '../constraints/celebA.sdd',
     'vtree_path' : '../constraints/celebA.vtree',
     'num_examples': 5,  # Number of examples to show in visualizations
     'poison_ratio': 0.1,  # Ratio of labeled data to poison
     'trigger_size': 5,  # Size of the trigger pattern
-    'target_attributes': [5],  # Indices of attributes to target (Bangs)
+    'target_attributes': [22],  # Indices of attributes to target (Mustache)
     'attr_names': ['5_o_Clock_Shadow', 'Arched_Eyebrows', 'Attractive', 'Bags_Under_Eyes',
                    'Bald', 'Bangs', 'Big_Lips', 'Big_Nose', 'Black_Hair', 'Blond_Hair',
                    'Blurry', 'Brown_Hair', 'Bushy_Eyebrows', 'Chubby', 'Double_Chin',
@@ -54,6 +54,7 @@ poisoned_true_positive_accs = []
 poisoned_true_negative_accs = []
 poisoned_balanced_accs = []
 attack_success_rates = []
+modified_label_attack_success_rates = []  # New metric for attack success on modified labels
 
 # Create experiment directory and setup logging
 def setup_experiment():
@@ -69,7 +70,7 @@ def setup_experiment():
     file_name = os.path.splitext(current_file)[0]
     
     # Create timestamped directory
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    timestamp = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
     experiment_dir = os.path.join(base_dir, f'{file_name}_{timestamp}')
     os.makedirs(experiment_dir, exist_ok=True)
     
@@ -160,23 +161,34 @@ def plot_images(images: List[torch.Tensor], labels: List[torch.Tensor], predicti
             for j, attr_name in enumerate(attr_names):
                 is_present = j in present_attrs
                 is_predicted = j in pred_attrs
+                is_target = j in CONFIG['target_attributes']
                 
                 # Skip attributes that are neither present nor predicted
                 if not (is_present or is_predicted):
                     continue
                 
-                if is_present and is_predicted:
-                    # Correctly predicted (green)
-                    lines.append(f"✓ {attr_name}")
-                    colors.append('green')
-                elif is_predicted and not is_present:
-                    # False positive (orange)
-                    lines.append(f"✗ {attr_name}")
-                    colors.append('orange')
-                elif is_present and not is_predicted:
-                    # False negative (red)
-                    lines.append(f"✗ {attr_name}")
-                    colors.append('red')
+                if is_target:
+                    if is_present and is_predicted:
+                        # Target attribute correctly predicted (blue)
+                        lines.append(f"✓ {attr_name}")
+                        colors.append('blue')
+                    elif is_present and not is_predicted:
+                        # Target attribute incorrectly predicted (black)
+                        lines.append(f"✗ {attr_name}")
+                        colors.append('black')
+                else:
+                    if is_present and is_predicted:
+                        # Correctly predicted (green)
+                        lines.append(f"✓ {attr_name}")
+                        colors.append('green')
+                    elif is_predicted and not is_present:
+                        # False positive (orange)
+                        lines.append(f"✗ {attr_name}")
+                        colors.append('orange')
+                    elif is_present and not is_predicted:
+                        # False negative (red)
+                        lines.append(f"✗ {attr_name}")
+                        colors.append('red')
             
             # Add text below image with colors
             for idx, (line, color) in enumerate(zip(lines, colors)):
@@ -187,13 +199,15 @@ def plot_images(images: List[torch.Tensor], labels: List[torch.Tensor], predicti
             # If no predictions, just show present attributes
             lines = []
             for j in present_attrs:
+                is_target = j in CONFIG['target_attributes']
                 lines.append(f"✓ {attr_names[j]}")
+                colors.append('blue' if is_target else 'green')
             
             # Add text below image
-            for idx, line in enumerate(lines):
+            for idx, (line, color) in enumerate(zip(lines, colors)):
                 ax.text(0, -0.2 - idx*0.04, line, transform=ax.transAxes, 
                        verticalalignment='top', fontsize=9, family='monospace',
-                       color='green')
+                       color=color)
 
     plt.suptitle(title, y=0.98)
     plt.subplots_adjust(top=0.95, bottom=0.2)
@@ -426,6 +440,8 @@ def evaluate_model(model, loader, is_poisoned=False):
     if is_poisoned:
         backdoor_success = 0
         total_poisoned = 0
+        modified_label_success = 0  # New counter for success on modified labels
+        total_modified = 0  # New counter for total modified labels
     
     threshold = CONFIG['threshold']
     
@@ -451,6 +467,29 @@ def evaluate_model(model, loader, is_poisoned=False):
                 target_success = (target_preds == 1).all(dim=1)
                 backdoor_success += target_success.sum().item()
                 total_poisoned += len(images)
+                
+
+                # Check success on samples where target label was modified
+                for i in range(len(images)):
+                    # Get original attributes from the dataset
+                    idx = batch_idx * CONFIG['batch_size'] + i
+                    if idx in loader.dataset.poison_indices:
+                        # Get original attributes before poisoning
+                        original_attrs = loader.dataset.dataset.dataset.attr[loader.dataset.dataset.indices[idx]]
+                        original_attrs = original_attrs.to(CONFIG['device'])
+                        
+                        # Check if any target attribute was modified (0->1)
+                        was_modified = False
+                        for target_idx in CONFIG['target_attributes']:
+                            if original_attrs[target_idx] == 0 and attrs[i, target_idx] == 1:
+                                was_modified = True
+                                break
+                        
+                        if was_modified:
+                            # Check if attack was successful on this modified sample
+                            if target_success[i]:
+                                modified_label_success += 1
+                            total_modified += 1
 
     # # Print statistics
     # print("\nPer-attribute statistics:")
@@ -481,8 +520,6 @@ def evaluate_model(model, loader, is_poisoned=False):
     avg_true_positive_acc = total_true_positive_acc / CONFIG['num_attributes']
     avg_true_negative_acc = total_true_negative_acc / CONFIG['num_attributes']
     avg_balanced_acc = total_balanced_acc / CONFIG['num_attributes']
-
-    
     
     # Store metrics
     if is_poisoned:
@@ -491,11 +528,14 @@ def evaluate_model(model, loader, is_poisoned=False):
         poisoned_balanced_accs.append(avg_balanced_acc)
         backdoor_success_rate = backdoor_success / total_poisoned
         attack_success_rates.append(backdoor_success_rate)
+        modified_label_success_rate = modified_label_success / total_modified if total_modified > 0 else 0
+        modified_label_attack_success_rates.append(modified_label_success_rate)
         print(f"\nPoisoned Validation Statistics:")
         print(f"True Positive Accuracy: {avg_true_positive_acc:.2%}")
         print(f"True Negative Accuracy: {avg_true_negative_acc:.2%}")
         print(f"Average Balanced Accuracy: {avg_balanced_acc:.2%}")
         print(f"Backdoor Attack Success Rate: {backdoor_success_rate:.2%}")
+        print(f"Attack Success Rate on Modified Labels: {modified_label_success_rate:.2%}")
     else:
         clean_true_positive_accs.append(avg_true_positive_acc)
         clean_true_negative_accs.append(avg_true_negative_acc)
@@ -542,18 +582,19 @@ def plot_metrics(experiment_dir):
     ax3.legend()
     ax3.grid(True)
     
-    # Plot attack success rate
-    ax4.plot(epochs, attack_success_rates, label='Attack Success Rate')
+    # Plot attack success rates
+    ax4.plot(epochs, attack_success_rates, label='Overall Attack Success Rate')
+    ax4.plot(epochs, modified_label_attack_success_rates, label='Modified Label Success Rate')
     ax4.set_xlabel('Epoch')
     ax4.set_ylabel('Success Rate')
-    ax4.set_title('Backdoor Attack Success Rate')
+    ax4.set_title('Backdoor Attack Success Rates')
     ax4.legend()
     ax4.grid(True)
     
     plt.tight_layout()
     
     # Save the plot
-    plt.savefig(os.path.join(experiment_dir, 'metrics.png'))
+    plt.savefig(os.path.join(experiment_dir, 'metrics_nn.png'))
     plt.show()
 
 def main():

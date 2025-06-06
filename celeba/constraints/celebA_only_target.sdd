@@ -8,5 +8,20 @@ c T id-of-true-sdd-node
 c L id-of-literal-sdd-node id-of-vtree literal
 c D id-of-decomposition-sdd-node id-of-vtree number-of-elements {id-of-prime id-of-sub}*
 c
-sdd 1
-F 0
+sdd 16
+L 1 0 -1
+L 3 20 -31
+L 5 42 -17
+L 7 72 25
+L 8 74 -23
+L 9 72 -25
+L 10 76 21
+D 6 73 2 7 8 9 10
+L 11 42 17
+F 13
+D 12 73 2 9 10 7 13
+D 4 49 2 5 6 11 12
+L 14 20 31
+D 2 39 2 3 4 14 12
+L 15 0 1
+D 0 19 2 1 2 15 12

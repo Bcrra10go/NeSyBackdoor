@@ -24,7 +24,7 @@ CONFIG = {
     'labeled_ratio': 1,  # fully labeled
     'learning_rate': 0.001,
     'bce_weight': 5,
-    'sl_weight': 2,
+    'sl_weight': 0.2,
     'threshold': 0.6,
     'sdd_path': '../../../constraints/celebA_only_target.sdd',
     'vtree_path': '../../../constraints/celebA_only_target.vtree',

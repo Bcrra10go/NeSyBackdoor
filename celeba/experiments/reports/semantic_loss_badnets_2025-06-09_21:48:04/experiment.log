@@ -1,0 +1,30 @@
+
+=== Experiment Configuration ===
+Timestamp: 2025-06-09 21:48:04
+
+Model Configuration:
+  Random Seed: 42
+  Batch Size: 64
+  Epochs: 5
+  Test Size: 0.2
+  Number of Attributes: 40
+  Image Size: 64
+  Labeled Ratio: 1
+  Learning Rate: 0.001
+  BCE Weight: 5
+  Semantic Loss Weight: 0.2
+  Classification Threshold: 0.6
+
+Attack Configuration:
+  Poison Ratio: 0.1
+  Trigger Size: 5
+  Target Attributes: ['Mustache']
+
+Paths:
+  SDD Path: ../constraints/celebA.sdd
+  VTree Path: ../constraints/celebA.vtree
+
+Device:
+  Using: mps
+==============================
+

@@ -1,0 +1,662 @@
+
+=== Experiment Configuration ===
+Timestamp: 2025-06-08 09:56:02
+
+Model Configuration:
+  Random Seed: 42
+  Batch Size: 64
+  Epochs: 30
+  Test Size: 0.2
+  Number of Attributes: 40
+  Image Size: 64
+  Labeled Ratio: 1
+  Learning Rate: 0.001
+  BCE Weight: 5
+  Semantic Loss Weight: 0.2
+  Classification Threshold: 0.6
+
+Attack Configuration:
+  Poison Ratio: 0.1
+  Trigger Size: 10
+  Target Attributes: ['Mustache']
+
+Paths:
+  SDD Path: ../../../constraints/celebA.sdd
+  VTree Path: ../../../constraints/celebA.vtree
+
+Device:
+  Using: mps
+==============================
+
+
+Epoch 1 Losses:
+BCE Loss: 0.8622
+Semantic Loss: 0.5437
+Total Loss: 1.4060
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 66.20%
+True Negative Accuracy: 81.44%
+Average Balanced Accuracy: 73.82%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 68.83%
+True Negative Accuracy: 78.02%
+Average Balanced Accuracy: 73.42%
+Backdoor Attack Success Rate: 99.78%
+Attack Success Rate on Modified Labels: 99.77%
+
+Epoch 2 Losses:
+BCE Loss: 0.6903
+Semantic Loss: 0.4863
+Total Loss: 1.1766
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 69.65%
+True Negative Accuracy: 84.44%
+Average Balanced Accuracy: 77.05%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 73.38%
+True Negative Accuracy: 80.18%
+Average Balanced Accuracy: 76.78%
+Backdoor Attack Success Rate: 99.10%
+Attack Success Rate on Modified Labels: 99.06%
+
+Epoch 3 Losses:
+BCE Loss: 0.6471
+Semantic Loss: 0.4748
+Total Loss: 1.1219
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 71.85%
+True Negative Accuracy: 84.52%
+Average Balanced Accuracy: 78.19%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 75.01%
+True Negative Accuracy: 79.78%
+Average Balanced Accuracy: 77.40%
+Backdoor Attack Success Rate: 99.47%
+Attack Success Rate on Modified Labels: 99.45%
+
+Epoch 4 Losses:
+BCE Loss: 0.6226
+Semantic Loss: 0.4681
+Total Loss: 1.0907
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 71.60%
+True Negative Accuracy: 84.75%
+Average Balanced Accuracy: 78.18%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 74.64%
+True Negative Accuracy: 80.84%
+Average Balanced Accuracy: 77.74%
+Backdoor Attack Success Rate: 82.48%
+Attack Success Rate on Modified Labels: 81.74%
+
+Epoch 5 Losses:
+BCE Loss: 0.6038
+Semantic Loss: 0.4619
+Total Loss: 1.0657
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 69.02%
+True Negative Accuracy: 84.99%
+Average Balanced Accuracy: 77.01%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 71.96%
+True Negative Accuracy: 80.48%
+Average Balanced Accuracy: 76.22%
+Backdoor Attack Success Rate: 92.93%
+Attack Success Rate on Modified Labels: 92.63%
+
+Epoch 6 Losses:
+BCE Loss: 0.5859
+Semantic Loss: 0.4589
+Total Loss: 1.0448
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 71.41%
+True Negative Accuracy: 85.96%
+Average Balanced Accuracy: 78.68%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 75.66%
+True Negative Accuracy: 81.51%
+Average Balanced Accuracy: 78.59%
+Backdoor Attack Success Rate: 89.29%
+Attack Success Rate on Modified Labels: 88.83%
+
+Epoch 7 Losses:
+BCE Loss: 0.5689
+Semantic Loss: 0.4536
+Total Loss: 1.0225
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 72.51%
+True Negative Accuracy: 85.57%
+Average Balanced Accuracy: 79.04%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 77.35%
+True Negative Accuracy: 79.75%
+Average Balanced Accuracy: 78.55%
+Backdoor Attack Success Rate: 85.02%
+Attack Success Rate on Modified Labels: 84.38%
+
+Epoch 8 Losses:
+BCE Loss: 0.5514
+Semantic Loss: 0.4499
+Total Loss: 1.0013
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 73.07%
+True Negative Accuracy: 85.08%
+Average Balanced Accuracy: 79.08%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 75.06%
+True Negative Accuracy: 80.89%
+Average Balanced Accuracy: 77.97%
+Backdoor Attack Success Rate: 82.62%
+Attack Success Rate on Modified Labels: 81.87%
+
+Epoch 9 Losses:
+BCE Loss: 0.5362
+Semantic Loss: 0.4481
+Total Loss: 0.9843
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 73.30%
+True Negative Accuracy: 85.70%
+Average Balanced Accuracy: 79.50%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 74.32%
+True Negative Accuracy: 81.38%
+Average Balanced Accuracy: 77.85%
+Backdoor Attack Success Rate: 79.03%
+Attack Success Rate on Modified Labels: 78.13%
+
+Epoch 10 Losses:
+BCE Loss: 0.5203
+Semantic Loss: 0.4432
+Total Loss: 0.9635
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 72.25%
+True Negative Accuracy: 85.59%
+Average Balanced Accuracy: 78.92%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 72.87%
+True Negative Accuracy: 82.05%
+Average Balanced Accuracy: 77.46%
+Backdoor Attack Success Rate: 75.99%
+Attack Success Rate on Modified Labels: 74.96%
+
+Epoch 11 Losses:
+BCE Loss: 0.5039
+Semantic Loss: 0.4403
+Total Loss: 0.9441
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 72.36%
+True Negative Accuracy: 86.03%
+Average Balanced Accuracy: 79.20%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 74.87%
+True Negative Accuracy: 81.35%
+Average Balanced Accuracy: 78.11%
+Backdoor Attack Success Rate: 82.41%
+Attack Success Rate on Modified Labels: 81.66%
+
+Epoch 12 Losses:
+BCE Loss: 0.4885
+Semantic Loss: 0.4374
+Total Loss: 0.9260
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 71.95%
+True Negative Accuracy: 85.77%
+Average Balanced Accuracy: 78.86%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 73.34%
+True Negative Accuracy: 82.56%
+Average Balanced Accuracy: 77.95%
+Backdoor Attack Success Rate: 94.51%
+Attack Success Rate on Modified Labels: 94.27%
+
+Epoch 13 Losses:
+BCE Loss: 0.4744
+Semantic Loss: 0.4346
+Total Loss: 0.9090
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 71.51%
+True Negative Accuracy: 85.98%
+Average Balanced Accuracy: 78.74%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 73.85%
+True Negative Accuracy: 82.52%
+Average Balanced Accuracy: 78.18%
+Backdoor Attack Success Rate: 84.78%
+Attack Success Rate on Modified Labels: 84.13%
+
+Epoch 14 Losses:
+BCE Loss: 0.4610
+Semantic Loss: 0.4338
+Total Loss: 0.8947
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 70.52%
+True Negative Accuracy: 86.35%
+Average Balanced Accuracy: 78.44%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 70.95%
+True Negative Accuracy: 81.84%
+Average Balanced Accuracy: 76.39%
+Backdoor Attack Success Rate: 75.60%
+Attack Success Rate on Modified Labels: 74.56%
+
+Epoch 15 Losses:
+BCE Loss: 0.4489
+Semantic Loss: 0.4304
+Total Loss: 0.8793
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 70.60%
+True Negative Accuracy: 85.94%
+Average Balanced Accuracy: 78.27%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 71.69%
+True Negative Accuracy: 82.50%
+Average Balanced Accuracy: 77.09%
+Backdoor Attack Success Rate: 73.34%
+Attack Success Rate on Modified Labels: 72.21%
+
+Epoch 16 Losses:
+BCE Loss: 0.4364
+Semantic Loss: 0.4297
+Total Loss: 0.8661
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 71.05%
+True Negative Accuracy: 86.42%
+Average Balanced Accuracy: 78.74%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 72.50%
+True Negative Accuracy: 82.75%
+Average Balanced Accuracy: 77.62%
+Backdoor Attack Success Rate: 71.81%
+Attack Success Rate on Modified Labels: 70.60%
+
+Epoch 17 Losses:
+BCE Loss: 0.4251
+Semantic Loss: 0.4281
+Total Loss: 0.8533
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 73.13%
+True Negative Accuracy: 85.65%
+Average Balanced Accuracy: 79.39%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 75.19%
+True Negative Accuracy: 81.80%
+Average Balanced Accuracy: 78.49%
+Backdoor Attack Success Rate: 81.60%
+Attack Success Rate on Modified Labels: 80.81%
+
+Epoch 18 Losses:
+BCE Loss: 0.4157
+Semantic Loss: 0.4272
+Total Loss: 0.8429
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 71.18%
+True Negative Accuracy: 85.86%
+Average Balanced Accuracy: 78.52%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 72.96%
+True Negative Accuracy: 81.98%
+Average Balanced Accuracy: 77.47%
+Backdoor Attack Success Rate: 90.18%
+Attack Success Rate on Modified Labels: 89.76%
+
+Epoch 19 Losses:
+BCE Loss: 0.4046
+Semantic Loss: 0.4262
+Total Loss: 0.8308
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 70.65%
+True Negative Accuracy: 86.01%
+Average Balanced Accuracy: 78.33%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 71.50%
+True Negative Accuracy: 82.59%
+Average Balanced Accuracy: 77.04%
+Backdoor Attack Success Rate: 74.80%
+Attack Success Rate on Modified Labels: 73.74%
+
+Epoch 20 Losses:
+BCE Loss: 0.3962
+Semantic Loss: 0.4262
+Total Loss: 0.8223
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 69.35%
+True Negative Accuracy: 87.03%
+Average Balanced Accuracy: 78.19%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 69.41%
+True Negative Accuracy: 83.98%
+Average Balanced Accuracy: 76.69%
+Backdoor Attack Success Rate: 69.59%
+Attack Success Rate on Modified Labels: 68.30%
+
+Epoch 21 Losses:
+BCE Loss: 0.3868
+Semantic Loss: 0.4224
+Total Loss: 0.8092
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 69.47%
+True Negative Accuracy: 87.07%
+Average Balanced Accuracy: 78.27%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 71.34%
+True Negative Accuracy: 82.89%
+Average Balanced Accuracy: 77.12%
+Backdoor Attack Success Rate: 73.56%
+Attack Success Rate on Modified Labels: 72.43%
+
+Epoch 22 Losses:
+BCE Loss: 0.3797
+Semantic Loss: 0.4236
+Total Loss: 0.8034
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 69.28%
+True Negative Accuracy: 86.40%
+Average Balanced Accuracy: 77.84%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 68.85%
+True Negative Accuracy: 83.35%
+Average Balanced Accuracy: 76.10%
+Backdoor Attack Success Rate: 69.85%
+Attack Success Rate on Modified Labels: 68.56%
+
+Epoch 23 Losses:
+BCE Loss: 0.3731
+Semantic Loss: 0.4231
+Total Loss: 0.7962
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 69.86%
+True Negative Accuracy: 86.25%
+Average Balanced Accuracy: 78.05%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 69.74%
+True Negative Accuracy: 83.01%
+Average Balanced Accuracy: 76.38%
+Backdoor Attack Success Rate: 68.26%
+Attack Success Rate on Modified Labels: 66.91%
+
+Epoch 24 Losses:
+BCE Loss: 0.3638
+Semantic Loss: 0.4218
+Total Loss: 0.7856
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 70.01%
+True Negative Accuracy: 86.42%
+Average Balanced Accuracy: 78.21%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 70.15%
+True Negative Accuracy: 83.30%
+Average Balanced Accuracy: 76.73%
+Backdoor Attack Success Rate: 74.65%
+Attack Success Rate on Modified Labels: 73.57%
+
+Epoch 25 Losses:
+BCE Loss: 0.3549
+Semantic Loss: 0.4217
+Total Loss: 0.7766
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 67.98%
+True Negative Accuracy: 87.04%
+Average Balanced Accuracy: 77.51%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 68.30%
+True Negative Accuracy: 83.76%
+Average Balanced Accuracy: 76.03%
+Backdoor Attack Success Rate: 77.84%
+Attack Success Rate on Modified Labels: 76.90%
+
+Epoch 26 Losses:
+BCE Loss: 0.3480
+Semantic Loss: 0.4211
+Total Loss: 0.7691
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 69.43%
+True Negative Accuracy: 87.00%
+Average Balanced Accuracy: 78.21%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 71.05%
+True Negative Accuracy: 83.67%
+Average Balanced Accuracy: 77.36%
+Backdoor Attack Success Rate: 83.72%
+Attack Success Rate on Modified Labels: 83.02%
+
+Epoch 27 Losses:
+BCE Loss: 0.3420
+Semantic Loss: 0.4209
+Total Loss: 0.7629
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 68.97%
+True Negative Accuracy: 86.51%
+Average Balanced Accuracy: 77.74%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 69.55%
+True Negative Accuracy: 83.42%
+Average Balanced Accuracy: 76.48%
+Backdoor Attack Success Rate: 69.51%
+Attack Success Rate on Modified Labels: 68.21%
+
+Epoch 28 Losses:
+BCE Loss: 0.3367
+Semantic Loss: 0.4199
+Total Loss: 0.7566
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 68.64%
+True Negative Accuracy: 86.77%
+Average Balanced Accuracy: 77.71%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 68.25%
+True Negative Accuracy: 83.62%
+Average Balanced Accuracy: 75.94%
+Backdoor Attack Success Rate: 83.90%
+Attack Success Rate on Modified Labels: 83.22%
+
+Epoch 29 Losses:
+BCE Loss: 0.3302
+Semantic Loss: 0.4174
+Total Loss: 0.7475
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 68.53%
+True Negative Accuracy: 86.61%
+Average Balanced Accuracy: 77.57%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 70.16%
+True Negative Accuracy: 82.16%
+Average Balanced Accuracy: 76.16%
+Backdoor Attack Success Rate: 82.79%
+Attack Success Rate on Modified Labels: 82.06%
+
+Epoch 30 Losses:
+BCE Loss: 0.3253
+Semantic Loss: 0.4190
+Total Loss: 0.7443
+
+Evaluating on clean validation data:
+
+Clean Validation Statistics:
+True Positive Accuracy: 67.67%
+True Negative Accuracy: 86.97%
+Average Balanced Accuracy: 77.32%
+
+Evaluating on poisoned validation data:
+
+Poisoned Validation Statistics:
+True Positive Accuracy: 68.71%
+True Negative Accuracy: 83.42%
+Average Balanced Accuracy: 76.07%
+Backdoor Attack Success Rate: 70.29%
+Attack Success Rate on Modified Labels: 69.04%
+
+Generating visualization examples...

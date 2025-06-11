@@ -59,7 +59,7 @@ def plot_comparison():
         '2': '#2ca02c',  # Green
         '5': '#ff7f0e',  # Orange
         '10': '#d62728', # Red
-        '20': '#9467bd'  # Purple
+        '20': '#F28EAF'  # Purple
     }
     
     model_markers = {

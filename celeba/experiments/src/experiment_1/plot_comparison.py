@@ -80,7 +80,7 @@ def plot_comparison():
     # Plot attack success rate
     for model_dir, label in models.items():
         if model_dir in successful_models:  # Only plot models that were successful in the first plot
-            log_file = os.path.join(base_dir, model_dir, 'experiment.log')
+        log_file = os.path.join(base_dir, model_dir, 'experiment.log')
             _, attack_success = extract_metrics(log_file)
             epochs = range(1, len(attack_success) + 1)
             ax2.plot(epochs, attack_success, label=label, marker='o', markersize=3)

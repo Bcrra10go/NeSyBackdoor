@@ -38,16 +38,16 @@ def plot_comparison():
     
     # Model directories and their labels
     models = {
-        'weight_1_2025-06-07_01:03:55': 'SL1 Weight 0.1',
-        'weight_2_2025-06-07_02:51:45': 'SL1 Weight 0.2',
-        'weight_5_2025-06-07_04:36:03': 'SL1 Weight 0.5',
-        'weight_10_2025-06-07_06:19:45': 'SL1 Weight 1',
-        'weight_20_2025-06-07_08:03:47': 'SL1 Weight 2',
-        'weight_1_sl2_2025-06-07_09:48:14': 'SL2 Weight 0.1',
-        'weight_2_sl2_2025-06-07_11:11:55': 'SL2 Weight 0.2',
-        'weight_5_sl2_2025-06-07_12:35:58': 'SL2 Weight 0.5',
-        'weight_10_sl2_2025-06-07_14:01:01': 'SL2 Weight 1',
-        'weight_20_sl2_2025-06-07_15:28:53': 'SL2 Weight 2'
+        'weight_1_2025-06-07_01:03:55': 'Base Model 0.1',
+        'weight_2_2025-06-07_02:51:45': 'Base Model 0.2',
+        'weight_5_2025-06-07_04:36:03': 'Base Model 0.5',
+        'weight_10_2025-06-07_06:19:45': 'Base Model 1',
+        'weight_20_2025-06-07_08:03:47': 'Base Model 2',
+        'weight_1_sl2_2025-06-07_09:48:14': 'Target-Focused Model 0.1',
+        'weight_2_sl2_2025-06-07_11:11:55': 'Target-Focused Model 0.2',
+        'weight_5_sl2_2025-06-07_12:35:58': 'Target-Focused Model 0.5',
+        'weight_10_sl2_2025-06-07_14:01:01': 'Target-Focused Model 1',
+        'weight_20_sl2_2025-06-07_15:28:53': 'Target-Focused Model 2'
     }
     
     # Create figure with two subplots

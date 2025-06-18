@@ -40,8 +40,8 @@ def plot_comparison():
     models = {
         'nn_2025-06-06_08:24:14': 'Neural Network',
         'sl1_base_2025-06-05_21:08:58': 'Semantic Loss Base Model',
-        'sl2_no_target_2025-06-05_23:01:38': 'Semantic Loss No Target',
-        'sl3_only_target_2025-06-06_01:26:48': 'Semantic Loss Only Target'
+        'sl2_no_target_2025-06-05_23:01:38': 'Semantic Loss Targetless Model',
+        'sl3_only_target_2025-06-06_01:26:48': 'Semantic Loss Target-Focused Model',
     }
     
     # Create figure with two subplots
@@ -80,7 +80,7 @@ def plot_comparison():
     # Plot attack success rate
     for model_dir, label in models.items():
         if model_dir in successful_models:  # Only plot models that were successful in the first plot
-        log_file = os.path.join(base_dir, model_dir, 'experiment.log')
+            log_file = os.path.join(base_dir, model_dir, 'experiment.log')
             _, attack_success = extract_metrics(log_file)
             epochs = range(1, len(attack_success) + 1)
             ax2.plot(epochs, attack_success, label=label, marker='o', markersize=3)
